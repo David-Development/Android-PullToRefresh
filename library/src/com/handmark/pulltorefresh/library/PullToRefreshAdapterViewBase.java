@@ -17,6 +17,7 @@ package com.handmark.pulltorefresh.library;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,14 +29,18 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 import com.handmark.pulltorefresh.library.internal.IndicatorLayout;
 
-public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements
+public abstract class PullToRefreshAdapterViewBase<T extends ListView> extends PullToRefreshBase<T> implements
 		OnScrollListener {
 
 	private static FrameLayout.LayoutParams convertEmptyViewLayoutParams(ViewGroup.LayoutParams lp) {
@@ -151,7 +156,18 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	public void setAdapter(ListAdapter adapter) {
 		((AdapterView<ListAdapter>) mRefreshableView).setAdapter(adapter);
 	}
-
+	
+	public void setExpandableAdapter(ExpandableListAdapter adapter) {
+		//((AdapterView<ListAdapter>) mRefreshableView).setAdapter(adapter);
+		((ExpandableListView) mRefreshableView).setAdapter(adapter);
+	}
+	
+	public void setGroupIndicator(Drawable drawable)
+	{
+		((ExpandableListView) mRefreshableView).setGroupIndicator(drawable);
+	}
+	
+	
 	/**
 	 * Sets the Empty View to be used by the Adapter View.
 	 * <p/>
@@ -218,6 +234,11 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 	public final void setScrollEmptyView(boolean doScroll) {
 		mScrollEmptyView = doScroll;
+	}
+	
+	public final void setOnChildClickListener(OnChildClickListener onChildClick)
+	{
+		((ExpandableListView) mRefreshableView).setOnChildClickListener(onChildClick);
 	}
 
 	/**
