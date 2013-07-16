@@ -21,12 +21,11 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ExpandableListView;
 
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 
-public class PullToRefreshExpandableListView extends PullToRefreshAdapterViewBase<ExpandableListView> {
-
+public class PullToRefreshExpandableListView extends PullToRefreshAdapterViewBase<BlockingExpandableListView> {
+	
 	public PullToRefreshExpandableListView(Context context) {
 		super(context);
 	}
@@ -47,10 +46,11 @@ public class PullToRefreshExpandableListView extends PullToRefreshAdapterViewBas
 	public final Orientation getPullToRefreshScrollDirection() {
 		return Orientation.VERTICAL;
 	}
+	
 
 	@Override
-	protected ExpandableListView createRefreshableView(Context context, AttributeSet attrs) {
-		final ExpandableListView lv;
+	protected BlockingExpandableListView createRefreshableView(Context context, AttributeSet attrs) {
+		final BlockingExpandableListView lv;
 		if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {
 			lv = new InternalExpandableListViewSDK9(context, attrs);
 		} else {
@@ -62,7 +62,7 @@ public class PullToRefreshExpandableListView extends PullToRefreshAdapterViewBas
 		return lv;
 	}
 
-	class InternalExpandableListView extends ExpandableListView implements EmptyViewMethodAccessor {
+	class InternalExpandableListView extends BlockingExpandableListView implements EmptyViewMethodAccessor {
 
 		public InternalExpandableListView(Context context, AttributeSet attrs) {
 			super(context, attrs);
